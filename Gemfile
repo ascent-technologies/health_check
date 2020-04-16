@@ -16,5 +16,4 @@ group :development, :test do
   # mime-types 2.0 requires Ruby version >= 1.9.2
   # mime-types 3.0 requires Ruby version >= 2.0
   gem 'mime-types', defined?(JRUBY_VERSION) || RUBY_VERSION < '2.0' ? '< 3' : '>= 3.0'
-
 end
