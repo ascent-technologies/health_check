@@ -1,4 +1,4 @@
-#!/bash
+#!/bin/bash
 
 route_prefix=medical_check
 
@@ -20,33 +20,11 @@ if [ -z  "$MIDDLEWARE" ]; then
 fi
 rm -rf tmp/Gemfile* tmp/railsapp tmp/bin tmp/gems test/bin gemfiles/rails*.gemfile.lock
 
-# mkdir -p tmp/gems
-
 . test/init_variables
-
-# echo Checking $rails is present ...
-# [ -f $rails -a -f $rake ] || bundle exec rake rails:update:bin || echo '(ignored rake rails:update:bin exit status)'
-# [ -f $rails ] || bundle binstubs railties || echo '(ignored bundle exit status)'
-# [ -f $rails ] || bundle binstubs rails || echo '(ignored bundle exit status)'
-# if [ ! -f $rails ]; then
-#     echo "Test aborted (unable to create $rails)"
-#     exit 2
-# fi
-
-# if [ ! -f $rake ]; then
-#     echo "Running bundle binstubs rake ..."
-#     if ! bundle binstubs rake || [ ! -f $rake ]; then
-#         echo "Test aborted (unable to create $rake)"
-#         exit 2
-#     # fi
-# fi
 
 actual_rails_version=`rails -v`
 
 [ -d lib/health_check ] || exec echo setup_railsapp MUST be executed in the base of the health_check gem/clone of git repository
-
-export GEM_PATH="$tmp_dir/gems:`gem environment gempath`"
-echo Set GEM_PATH=$GEM_PATH
 
 echo "Installing health_check gem"
 rake install
@@ -125,27 +103,11 @@ sed -i.bak -e '/listen/s/^/#Earlier version required # /' Gemfile
 
 echo
 echo ================= Gemfile ===================
-cat Gemfile
-echo
-echo running bundle install
-smarter_bundle ${BUNDLER_VERSION:+_${BUNDLER_VERSION}_} install
+# cat Gemfile
+# echo
+# echo running bundle install
+# bundle install
 
-# echo Checking $rails is present ...
-# [ -f $rails -a -f $rake ] || bundle exec rake rails:update:bin || echo '(ignored rake rails:update:bin exit status)'
-# [ -f $rails ] || bundle binstubs railties || echo '(ignored bundle exit status)'
-# [ -f $rails ] || bundle binstubs rails || echo '(ignored bundle exit status)'
-# if [ ! -f $rails ]; then
-#     echo "Test aborted (unable to create $rails)"
-#     exit 2
-# fi
-
-# echo Checking $rake is present ...
-# [ -f $rake ] || bundle binstubs rake || echo '(ignored bundle exit status)'
-# if [ ! -f $rake ]; then
-#     echo "Test aborted (unable to create $rake)"
-#     exit 2
-# fi
-# 
 for e in test ${RAILS_ENV2:-production}
 do
     if [ -f config/environments/$e.rb ]; then

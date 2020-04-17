@@ -1,4 +1,4 @@
-#!/bash
+#!/bin/bash
 
 route_prefix=medical_check
 
@@ -88,16 +88,7 @@ start_server()
     bundle_prefix='bundle exec'
     echo "start_server called using: `env | egrep '^RAILS|^RACK|^PATH='` $bundle_prefix puma"
     $bundle_prefix puma -b tcp://127.0.0.1:$port &
-    #     if [ -x script/server ]
-    #     then
-    #         echo Starting server on port $port using $bundle_prefix ./script/server ...
-    #         $bundle_prefix ./script/server $server_arg -p $port &
-    #     else
-    #         echo Starting server on port $port using $rails s ...
-    #         $bundle_prefix $rails server $server_arg -p $port &
-    #     fi
-    #     ;;
-    # esac
+
     server_pid=$!
     echo Server pid: $server_pid
     sleep 3
@@ -322,6 +313,8 @@ common_tests()
     test_no=`expr 1 + $test_no`
     if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
         echo "${test_no}: TESTING ${route_prefix}/migration should pass after both database migrations ..."
+        cp $base_dir/test/migrate/twelve/* db/migrate
+
         $rake db:migrate
         $testurl ${host}/${route_prefix}/migration 200 text/plain $success
         echo
