@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bash
 
 route_prefix=medical_check
 
@@ -85,37 +85,19 @@ start_server()
     # Increment port each time to make sure we have not trouble with address/port already allocated
     pick_a_port
     host=http://127.0.0.1:${port}
-    bundle_prefix=''
-    if [ -f Gemfile ]
-    then
-        bundle_prefix='bundle exec'
-    fi
-    server_arg=${RAILS_SERVER:-webrick}
-    echo "start_server called using: `env | egrep '^RAILS|^RACK|^PATH='` $bundle_prefix $server_arg"
-    case "$server_arg" in
-    puma) 
-        $bundle_prefix puma -b tcp://127.0.0.1:$port &
-        ;;
-    passenger) 
-        $bundle_prefix passenger start -p $port &
-        ;;
-    thin) 
-        $bundle_prefix thin start -p $port &
-        ;;
-    unicorn) 
-        $bundle_prefix unicorn_rails -l 127.0.0.1:$port &
-        ;;
-    *)
-        if [ -x script/server ]
-        then
-            echo Starting server on port $port using $bundle_prefix ./script/server ...
-            $bundle_prefix ./script/server $server_arg -p $port &
-        else
-            echo Starting server on port $port using $rails s ...
-            $bundle_prefix $rails server $server_arg -p $port &
-        fi
-        ;;
-    esac
+    bundle_prefix='bundle exec'
+    echo "start_server called using: `env | egrep '^RAILS|^RACK|^PATH='` $bundle_prefix puma"
+    $bundle_prefix puma -b tcp://127.0.0.1:$port &
+    #     if [ -x script/server ]
+    #     then
+    #         echo Starting server on port $port using $bundle_prefix ./script/server ...
+    #         $bundle_prefix ./script/server $server_arg -p $port &
+    #     else
+    #         echo Starting server on port $port using $rails s ...
+    #         $bundle_prefix $rails server $server_arg -p $port &
+    #     fi
+    #     ;;
+    # esac
     server_pid=$!
     echo Server pid: $server_pid
     sleep 3
@@ -142,15 +124,11 @@ stop_server()
             echo ========================================================
             echo "Killing rails server [pid: $server_pid]"
             kill -QUIT $server_pid  || echo server has already exited ..
-            if [ -x bin/spring ] ; then
-                echo Stopping spring ...
-                bin/spring stop || echo spring had already exited ..
-            fi
             sleep 1
             kill -9 $server_pid  || echo server had already exited ...
             sleep 1
             # needed for unicorn - it doesn't die when it is supposed to
-            killall "$server_arg" || echo server and child processes had already stopped ...
+            killall puma || echo server and child processes had already stopped ...
             ;;
     esac
     case "$fake_smtp_pid" in

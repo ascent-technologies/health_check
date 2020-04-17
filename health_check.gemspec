@@ -27,4 +27,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency(%q<shoulda>, ["~> 2.11.0"])
   gem.add_development_dependency(%q<bundler>, ["~> 2.0"])
   gem.add_development_dependency("appraisal")
+  gem.add_development_dependency("puma")
+  gem.add_development_dependency("bootsnap")
 end
