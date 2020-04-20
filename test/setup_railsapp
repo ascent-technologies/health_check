@@ -45,7 +45,7 @@ case `ruby -e 'puts JRUBY_VERSION' 2> /dev/null` in
 esac
 
 echo "Creating $actual_rails_version app in $tmp_dir/railsapp using adapter $db"
-rails new railsapp --skip-bundle -d $db
+rails new railsapp --skip-bundle -d $db --skip-webpack-install
 
 cd $railsapp
 

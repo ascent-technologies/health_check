@@ -86,8 +86,14 @@ start_server()
     pick_a_port
     host=http://127.0.0.1:${port}
     bundle_prefix='bundle exec'
+
+    # puma needs this to work with Rails 6 
+    rm -rf tmp/pids && mkdir tmp/pids
+    touch tmp/pids/server.pid
+
     echo "start_server called using: `env | egrep '^RAILS|^RACK|^PATH='` $bundle_prefix puma"
-    $bundle_prefix puma -b tcp://127.0.0.1:$port &
+    # $bundle_prefix puma -b tcp://127.0.0.1:$port &
+    puma -b tcp://127.0.0.1:$port &
 
     server_pid=$!
     echo Server pid: $server_pid

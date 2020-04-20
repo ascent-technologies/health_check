@@ -9,7 +9,7 @@ group :development, :test do
     gem 'jruby-openssl'
     gem 'activerecord-jdbcsqlite3-adapter'
   else
-    gem 'sqlite3', '~> 1.3.7'
+    gem 'sqlite3', '~> 1.4'
   end
   # run travis-lint to check .travis.yml
   gem 'travis-lint'
