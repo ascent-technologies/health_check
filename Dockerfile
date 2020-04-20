@@ -1,4 +1,3 @@
-ARG BUNDLER_VERSION=2.1.4
 ARG RUBY_VERSION=2.6
 
 FROM ruby:${RUBY_VERSION}-alpine
@@ -18,12 +17,11 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
   libxslt-dev \
   sqlite-dev
 
-COPY . .
+COPY lib/health_check/version.rb health_check/version.rb
+COPY Gemfile health_check.gemspec Appraisals ./
 
-ARG BUNDLER_VERSION
-ENV BUNDLER_VERSION=${BUNDLER_VERSION}
-
-RUN gem install bundler -v ${BUNDLER_VERSION} && \
-  bundle config build.nokogiri --use-system-libraries && \
+RUN gem install bundler && \
   bundle install -j 8 --retry 3 && \
   bundle exec appraisal install
+
+COPY . .
