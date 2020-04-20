@@ -7,5 +7,6 @@ test-rails5:
 test-rails6:
 	docker run -it railsapp bundle exec appraisal rails-6 rake test
 
-test-all:
+.PHONY: test
+test:
 	docker run -it railsapp bundle exec appraisal rake test

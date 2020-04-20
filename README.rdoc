@@ -254,7 +254,7 @@ Testing is done against the versions of Rails listed in the `Appraisals` file, u
 To test all rails versions in `Appraisals`,
 
 ``` 
-  make test-all
+  make test
 ```
 
 To test a single rails version (for example, rails 5)
