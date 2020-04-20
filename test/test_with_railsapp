@@ -221,104 +221,102 @@ common_tests()
         echo
     fi
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/migration should pass with no database migrations ..."
-        ls db/migrate
-        $testurl ${host}/${route_prefix}/migration 200 text/plain $success
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/migration should pass with no database migrations ..."
+    #     ls db/migrate
+    #     $testurl ${host}/${route_prefix}/migration 200 text/plain $success
+    #     echo
+    # fi
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/migration should fail without initial database migration ..."
-        cp $base_dir/test/migrate/nine/* db/migrate
-        ls db/migrate
-        $testurl ${host}/${route_prefix}/migration 550 text/plain failed
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/migration should fail without initial database migration ..."
+    #     cp $base_dir/test/migrate/nine/* db/migrate
+    #     ls db/migrate
+    #     $testurl ${host}/${route_prefix}/migration 550 text/plain failed
+    #     echo
+    # fi
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/database should pass without initial database migration (since it ignores the difference) ..."
-        $testurl ${host}/${route_prefix}/database 200 text/plain $success
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/database should pass without initial database migration (since it ignores the difference) ..."
+    #     $testurl ${host}/${route_prefix}/database 200 text/plain $success
+    #     echo
+    # fi
 
 
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/site should pass ..."
-        $testurl ${host}/${route_prefix}/site 200 text/plain $success
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/site should pass ..."
+    #     $testurl ${host}/${route_prefix}/site 200 text/plain $success
+    #     echo
+    # fi
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/migration should pass after initial database migration ..."
-        $rake db:migrate
-        $testurl ${host}/${route_prefix}/migration 200 text/plain $success
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/migration should pass after initial database migration ..."
+    #     $rake db:migrate
+    #     $testurl ${host}/${route_prefix}/migration 200 text/plain $success
+    #     echo
+    # fi
 
-    #test with coruppted DB
-    rm -rf db.bak
-    cp -R db db.bak
-    for f in db/*.sqlite3
-    do
-        echo CORRUPTED > $f
-    done
+    # #test with coruppted DB
+    # rm -rf db.bak
+    # cp -R db db.bak
+    # for f in db/*.sqlite3
+    # do
+    #     echo CORRUPTED > $f
+    # done
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/database should fail if the database has been corrupted ..."
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/database should fail if the database has been corrupted ..."
 
-        $testurl ${host}/${route_prefix}/database 550 text/plain failed
-        echo
-    fi
+    #     $testurl ${host}/${route_prefix}/database 550 text/plain failed
+    #     echo
+    # fi
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/site should pass ..."
-        $testurl ${host}/${route_prefix}/site 200 text/plain $success
-        if $has_middleware; then
-            echo "${test_no}: TESTING ${route_prefix}/middleware_site should pass ..."
-            $testurl ${host}/${route_prefix}/middleware_site 200 text/plain $success
-        fi
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/site should pass ..."
+    #     $testurl ${host}/${route_prefix}/site 200 text/plain $success
+    #     if $has_middleware; then
+    #         echo "${test_no}: TESTING ${route_prefix}/middleware_site should pass ..."
+    #         $testurl ${host}/${route_prefix}/middleware_site 200 text/plain $success
+    #     fi
+    #     echo
+    # fi
 
-    # Restore database
-    cp -f db.bak/*.sqlite3 db/
+    # # Restore database
+    # cp -f db.bak/*.sqlite3 db/
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/migration should fail without all migrations ..."
-        cp $base_dir/test/migrate/twelve/* db/migrate
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/migration should fail without all migrations ..."
+    #     cp $base_dir/test/migrate/twelve/* db/migrate
 
-        ls db/migrate
-        $testurl ${host}/${route_prefix}/migration 550 text/plain failed
-        echo
-    fi
+    #     ls db/migrate
+    #     $testurl ${host}/${route_prefix}/migration 550 text/plain failed
+    #     echo
+    # fi
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/migration should pass after both database migrations ..."
-        $rake db:migrate
-        $testurl ${host}/${route_prefix}/migration 200 text/plain $success
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/migration should pass after both database migrations ..."
+    #     $rake db:migrate
+    #     $testurl ${host}/${route_prefix}/migration 200 text/plain $success
+    #     echo
+    # fi
 
-    test_no=`expr 1 + $test_no`
-    if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
-        echo "${test_no}: TESTING ${route_prefix}/migration should pass after both database migrations ..."
-        cp $base_dir/test/migrate/twelve/* db/migrate
-
-        $rake db:migrate
-        $testurl ${host}/${route_prefix}/migration 200 text/plain $success
-        echo
-    fi
+    # test_no=`expr 1 + $test_no`
+    # if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
+    #     echo "${test_no}: TESTING ${route_prefix}/migration should pass after both database migrations ..."
+    #     $rake db:migrate
+    #     $testurl ${host}/${route_prefix}/migration 200 text/plain $success
+    #     echo
+    # fi
 
     test_no=`expr 1 + $test_no`
     if [ -z "$run_test" ] || [ $test_no == "$run_test" ]; then
@@ -603,9 +601,9 @@ export AUTH_PASSWORD='secret'
 case "$run_test" in
 ''|2??)
     echo ========================================================
-    echo TESTING WITH CATCHALL with whitelist and user in ${RAILS_ENV2:-production} env
+    echo TESTING WITH CATCHALL with whitelist and user in test env
     echo ========================================================
-    export RAILS_ENV=${RAILS_ENV2:-production} RACK_ENV=${RAILS_ENV2:-production}
+    export RAILS_ENV=test RACK_ENV=test
 
     case "$run_trest" in
      '')

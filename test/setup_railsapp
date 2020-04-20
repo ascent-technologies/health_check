@@ -94,20 +94,9 @@ fi
 echo Adding health_check as gem to Gemfile...
 echo "gem 'health_check', :path => '$base_dir'" >> Gemfile
 
-echo "Using puma server"
-echo "Adding puma to Gemfile (for use as server)"
-echo "gem puma" >> Gemfile
-echo "gem bootsnap" >> Gemfile
-
 sed -i.bak -e '/listen/s/^/#Earlier version required # /' Gemfile
 
 echo
-echo ================= Gemfile ===================
-# cat Gemfile
-# echo
-# echo running bundle install
-# bundle install
-
 for e in test ${RAILS_ENV2:-production}
 do
     if [ -f config/environments/$e.rb ]; then
