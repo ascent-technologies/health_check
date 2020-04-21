@@ -17,10 +17,13 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
   libxslt-dev \
   sqlite-dev
 
-COPY lib/health_check/version.rb health_check/version.rb
-COPY Gemfile health_check.gemspec Appraisals ./
+# We need health_check/version.rb to build the gem, which is
+# in lib so we copy that over.
+# The gemspec also uses git ls for file dependencies,
+# which is why we git init below.
+COPY Gemfile health_check.gemspec Appraisals lib/ ./
 
-RUN gem install bundler && \
+RUN git init && gem install bundler && \
   bundle install -j 8 --retry 3 && \
   bundle exec appraisal install
 
