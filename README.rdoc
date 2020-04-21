@@ -243,7 +243,7 @@ Last-modified is set to the current time (rounded down to a multiple of max_age 
 
 * fitter_happier plugin by atmos - plugin with similar goals, but not compatible with uptime, and does not check email gateway
 
-== Testing by Ascent
+== Testing
 
 Testing is done against the versions of Rails listed in the `Appraisals` file, using Docker.
 
@@ -262,8 +262,8 @@ To test a single rails version (for example, rails 5)
    make test-rails5
 ```
 
-The test scripts are in bash, which is what the authors of the gem provided. They create a dummy rails app configured for sqlite,
-install the health_check gem, and then run up tests against the server.
+The test scripts are in bash and run against a dummy rails app configured for sqlite. The bash scripts
+install the health_check gem and then run up tests against the server.
 This will require TCP port 3456 to be free.
 
 The script will first call `test/setup_railsapp` to setup a rails app with health_check installed and then

@@ -19,11 +19,12 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
 
 # We need health_check/version.rb to build the gem, which is
 # in lib so we copy that over.
-# The gemspec also uses git ls for file dependencies,
-# which is why we git init below.
 COPY Gemfile health_check.gemspec Appraisals lib/ ./
 
-RUN git init && gem install bundler && \
+# The gemspec also uses git ls for file dependencies,
+# which is why we git init below. The tests depend on a tmp dir.
+RUN git init && mkdir -p tmp && \
+  gem install bundler && \
   bundle install -j 8 --retry 3 && \
   bundle exec appraisal install
 
